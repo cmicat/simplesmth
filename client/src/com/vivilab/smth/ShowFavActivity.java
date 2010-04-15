@@ -1,8 +1,9 @@
-package com.vivilab;
+package com.vivilab.smth;
 
 import java.util.List;
 
-import com.vivilab.helper.SmthHelper;
+import com.vivilab.R;
+import com.vivilab.smth.helper.SmthHelper;
 
 import android.app.ListActivity;
 import android.content.Intent;

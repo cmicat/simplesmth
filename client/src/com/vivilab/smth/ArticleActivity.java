@@ -1,7 +1,8 @@
-package com.vivilab;
+package com.vivilab.smth;
 
-import com.vivilab.helper.SmthHelper;
-import com.vivilab.model.Article;
+import com.vivilab.R;
+import com.vivilab.smth.helper.SmthHelper;
+import com.vivilab.smth.model.Article;
 
 import android.app.Activity;
 import android.os.Bundle;

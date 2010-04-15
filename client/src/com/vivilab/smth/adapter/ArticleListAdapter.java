@@ -1,8 +1,8 @@
-package com.vivilab.adapter;
+package com.vivilab.smth.adapter;
 import java.util.List;
 
-import com.vivilab.model.Article;
-import com.vivilab.view.ArticleItemView;
+import com.vivilab.smth.model.Article;
+import com.vivilab.smth.view.ArticleItemView;
 
 import android.content.Context;
 import android.view.View;

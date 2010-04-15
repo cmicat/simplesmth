@@ -1,4 +1,4 @@
-package com.vivilab;
+package com.vivilab.smth;
 
 import android.app.ListActivity;
 

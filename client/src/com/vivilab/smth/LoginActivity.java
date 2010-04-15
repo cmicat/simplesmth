@@ -1,6 +1,7 @@
-package com.vivilab;
+package com.vivilab.smth;
 
-import com.vivilab.helper.SmthHelper;
+import com.vivilab.R;
+import com.vivilab.smth.helper.SmthHelper;
 
 import android.app.Activity;
 import android.content.Intent;

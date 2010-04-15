@@ -1,4 +1,4 @@
-package com.vivilab.model;
+package com.vivilab.smth.model;
 
 public class Article {
 
