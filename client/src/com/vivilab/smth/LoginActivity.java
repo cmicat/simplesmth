@@ -1,17 +1,22 @@
 package com.vivilab.smth;
 
-import com.vivilab.R;
+import com.vivilab.smth.R;
 import com.vivilab.smth.helper.SmthHelper;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener{
 	private static final String TAG = "LoginActivity";  
@@ -19,24 +24,29 @@ public class LoginActivity extends Activity implements OnClickListener{
 	private Button loginButton;
 	private EditText mUserid;
 	private EditText mPasswd;
-    /** Called when the activity is first created. */
+	private ProgressDialog dialog;
+	private Activity presentActivity;
+	private ImageView logo;
+	private int state = 0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "app started");
         mDbHelper = new UserDbAdapter(this);
         mDbHelper.open();
-        doLogin();
-        setContentView(R.layout.main);
-        loginButton = (Button) findViewById(R.id.ok);
-        mUserid = (EditText) findViewById(R.id.userid);
-        mPasswd = (EditText) findViewById(R.id.passwd);
-        loginButton.setOnClickListener(this);
-        
+        presentActivity = this;
+        if(state !=2)
+        	doLogin();
+        else
+        {
+        	Log.i(TAG,"finish this act");
+        	setResult(RESULT_OK);
+        	finish();
+        }
     }
+
     
     private void doLogin() {
-        // Get all of the notes from the database and create the item list
         Cursor c = mDbHelper.fetchUser();
         if(c!=null&&c.getCount()>0)
         {
@@ -44,29 +54,85 @@ public class LoginActivity extends Activity implements OnClickListener{
         	String userid=c.getString(c.getColumnIndexOrThrow(UserDbAdapter.KEY_ID));
         	String passwd=c.getString(c.getColumnIndexOrThrow(UserDbAdapter.KEY_PASSWD));
         	Log.i(TAG, "get user from db:"+userid);
-    		//int result;
-    		if(SmthHelper.login(userid,passwd)>0)
-    		{
-    		//	mDbHelper.createUser(mUserid.getText().toString(), mPasswd.getText().toString());
-    			Intent i = new Intent(this, TabHomeActivity.class);
-    			startActivity(i);
-    		}        	
+        	dialog = ProgressDialog.show(LoginActivity.this, "",getString(R.string.info_login), true);
+        	LoginThread login = new LoginThread(handler,userid,passwd,1);
+        	login.start();
+        }
+        else
+        {
+	        setContentView(R.layout.main);
+	        loginButton = (Button) findViewById(R.id.ok);
+	        mUserid = (EditText) findViewById(R.id.userid);
+	        mPasswd = (EditText) findViewById(R.id.passwd);
+	        logo  = (ImageView) findViewById(R.id.ImageView01);
+	        logo.setImageResource(R.drawable.sm);
+	        loginButton.setOnClickListener(this);        	
         }
         
     }
 
 	public void onClick(View v) {
 		Log.i(TAG, "login user:"+mUserid.getText().toString()+",pass:"+mPasswd.getText().toString());
-		int result;
-		if((result=SmthHelper.login(mUserid.getText().toString(), mPasswd.getText().toString()))>0)
-		{
-			mDbHelper.createUser(mUserid.getText().toString(), mPasswd.getText().toString());
-			Intent i = new Intent(this, TabHomeActivity.class);
-			startActivity(i);
-		}
-		else
-		{
-			Log.w(TAG, "login fail,code:"+result);
-		}
+    	dialog = ProgressDialog.show(LoginActivity.this, "",getString(R.string.info_login), true);
+    	LoginThread login = new LoginThread(handler,mUserid.getText().toString(),mPasswd.getText().toString(),0);
+    	login.start();
 	}
+	
+    final Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+        	dialog.dismiss();
+            int state = msg.getData().getInt("state");
+            if(state>0)
+            {
+            	mDbHelper.close();
+	            Intent i = new Intent(presentActivity,TabHomeActivity.class);
+	            startActivity(i);
+            }
+            else
+            {
+            	Toast.makeText(getApplicationContext(),getString(R.string.info_login_fail),Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+	
+	
+	private class LoginThread extends Thread{
+		private String mUserid;
+		private String mPasswd;
+		private int mFromDB;
+		private Handler mHandler;
+		public LoginThread(Handler handler,String userid,String passwd,int fromDb)
+		{
+			mUserid = userid;
+			mPasswd = passwd;
+			mFromDB = fromDb;
+			mHandler = handler;
+		}
+		
+		 public void run() {
+			 int state=SmthHelper.login(mUserid,mPasswd);
+			 if(state>0 && mFromDB!=1)
+				 mDbHelper.createUser(mUserid, mPasswd);
+				 
+			 Message msg = mHandler.obtainMessage();
+			 Bundle b = new Bundle();
+			 b.putInt("state", state);
+			 msg.setData(b);
+             mHandler.sendMessage(msg);
+		 }
+	}
+	
+
+    protected void onPause() {
+        super.onPause();
+        state = 1;
+        Log.i(TAG,"i m on pause!what shall i do??");
+    }
+	
+    protected void onResume() {
+        super.onResume();
+        state =2;
+        Log.i(TAG,"i m on resume!what shall i do??");
+    }
+	
 }

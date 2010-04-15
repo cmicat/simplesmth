@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="fav">My Favorate</string>
+    <string name="fav">收藏夹</string>
+    <string name="top10">十大话题</string>
     <string name="app_name">SimpleSmth</string>
     <string name="ppage">上一页</string>
     <string name="npage">下一页</string>
@@ -14,4 +15,19 @@
     <string name="read_tn">同主题下篇</string>
     <string name="read_top">楼主贴</string>
     <string name="read_reply">回复</string>
+    <string name="title">标题</string>
+    <string name="body">内容</string>
+    <string name="info_inpost">发表文章</string>
+    <string name="info_post">正在发表，请等待...</string>
+    <string name="info_post_ok">你的文章发表成功</string>
+    <string name="info_post_fail">你的文章发表失败</string>
+    <string name="info_login">正在登录，请等待...</string>
+    <string name="info_login_fail">登录失败</string>
+    <string name="info_no_fav">收藏夹为空</string>
+    <string name="info_getfav">打开收藏夹，请等待...</string>
+    <string name="info_goboard">去讨论区</string>
+    <string name="info_changeuser">更改登录用户</string>
+    <string name="board_name">讨论区</string>
+    <string name="info_no_board">该讨论区不存在</string>
+    <string name="info_session_fail">超时或未登录，请重新登录</string>
 </resources>
