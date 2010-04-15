@@ -1,4 +1,4 @@
-package com.vivilab.helper;
+package com.vivilab.smth.helper;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,8 +13,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.vivilab.model.Article;
-import com.vivilab.model.Board;
+import com.vivilab.smth.model.Article;
+import com.vivilab.smth.model.Board;
 
 import android.util.Log;
 

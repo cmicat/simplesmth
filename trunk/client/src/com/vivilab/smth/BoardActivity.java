@@ -1,11 +1,12 @@
-package com.vivilab;
+package com.vivilab.smth;
 
 import java.util.List;
 
-import com.vivilab.adapter.ArticleListAdapter;
-import com.vivilab.helper.SmthHelper;
-import com.vivilab.model.Board;
-import com.vivilab.view.ArticleItemView;
+import com.vivilab.R;
+import com.vivilab.smth.adapter.ArticleListAdapter;
+import com.vivilab.smth.helper.SmthHelper;
+import com.vivilab.smth.model.Board;
+import com.vivilab.smth.view.ArticleItemView;
 
 import android.app.Activity;
 //import android.app.ListActivity;
