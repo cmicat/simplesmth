@@ -171,13 +171,11 @@ public class ShowFavActivity extends ListActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        state = 1;
         Log.i(TAG,"i m on pause!what shall i do??");
     }
 	
     protected void onResume() {
         super.onResume();
-        state =2;
         Log.i(TAG,"i m on resume!what shall i do??");
     }
 }

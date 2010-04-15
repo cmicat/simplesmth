@@ -30,9 +30,11 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 	private ArticleListAdapter datasAdapter;
 	private String boardName;
 	private Board currentBoard;
+	private int state;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        state =0;
         setContentView(R.layout.board);
         context = this;
         listView = (ListView) findViewById(R.id.listThread);
@@ -72,6 +74,7 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 		String aid=((ArticleItemView) view).getArticleId();
 		String title = (String)((ArticleItemView) view).getTitle();
 		Log.i(TAG, "we are going to show article:"+aid);
+		state = 2;
 		Intent i = new Intent(this, ArticleActivity.class);
 		i.putExtra("id",aid);
 		i.putExtra("board",this.boardName);
@@ -193,6 +196,7 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 		Intent i = new Intent(this, PostActivity.class);
 		i.putExtra("board",this.boardName);
 		i.putExtra("reid", "0");
+		state = 2;
 		startActivityForResult(i, ACTIVITY_POST);
 	}
 	
@@ -217,5 +221,22 @@ public class BoardActivity extends Activity implements OnItemClickListener{
         	 }
     	 }
     }
+
+    protected void onRestart()
+    {
+    	super.onRestart();
+    	state = 0;
+    }
+    
+    protected void onStop() {
+        super.onStop();
+        if(state!=2)
+        {
+        	Log.i(TAG,"not back from article,finish activity");
+        	setResult(RESULT_OK);
+        	finish();
+        }
+    }
+    
 
 }
