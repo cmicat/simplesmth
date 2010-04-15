@@ -1,7 +1,7 @@
 package com.vivilab.smth.view;
 
 
-import com.vivilab.R;
+import com.vivilab.smth.R;
 import com.vivilab.smth.model.Article;
 
 import android.content.Context;

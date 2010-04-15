@@ -1,14 +1,16 @@
 package com.vivilab.smth;
 
-import com.vivilab.R;
+import com.vivilab.smth.R;
 import com.vivilab.smth.helper.SmthHelper;
 import com.vivilab.smth.model.Article;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ArticleActivity extends Activity{
 	private TextView tv;
@@ -24,8 +26,17 @@ public class ArticleActivity extends Activity{
         String title = extras.getString("title");
         this.setTitle(title);
         article = SmthHelper.article(board, id,null);
-        tv = (TextView) findViewById(R.id.content);
-        tv.setText(article.getContent());
+        if(article!=null)
+        {
+        	tv = (TextView) findViewById(R.id.content);
+        	tv.setText(article.getContent());
+        }else
+        {
+        	Toast.makeText(getApplicationContext(),getString(R.string.info_session_fail),Toast.LENGTH_SHORT).show();
+        	setResult(RESULT_OK);
+        	finish();
+
+        }
 	}
 
 	//menu
@@ -53,6 +64,9 @@ public class ArticleActivity extends Activity{
 		    case READ_TOP:
 		    	doReadTop();
 		        return true;
+		    case READ_REPLY:
+		    	doReply();
+		        return true;
 	    }
 	    return false;
 	}
@@ -77,4 +91,41 @@ public class ArticleActivity extends Activity{
         this.setTitle(article.getTitle());
 	}
 	
+	private static final int ACTIVITY_REPLY=0;
+	private void doReply()
+	{
+		Intent i = new Intent(this, PostActivity.class);
+		i.putExtra("board",board);
+		i.putExtra("reid", article.getId());
+		i.putExtra("title", "Re:"+article.getTitle());
+		startActivityForResult(i, ACTIVITY_REPLY);
+	}
+	
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    	 super.onActivityResult(requestCode, resultCode, intent);
+    	 if(requestCode == ACTIVITY_REPLY)
+    	 {
+        	 Bundle extra =intent.getExtras();
+        	 if(extra!=null)
+        	 {
+	        	 int state = extra.getInt("state");
+	    		 if(state!=0)
+	    		 {
+	    			 Toast.makeText(getApplicationContext(),getString(R.string.info_post_fail),Toast.LENGTH_SHORT).show();
+	    		 }
+	    		 else
+	    		 {
+	    			 Toast.makeText(getApplicationContext(),getString(R.string.info_post_ok),Toast.LENGTH_SHORT).show();
+	    		 }
+        	 }
+    		 
+    	 }
+    	 //going to this board
+    	 Intent i = new Intent(this, BoardActivity.class);
+ 		i.putExtra("board", board);
+		startActivity(i);
+
+    }
+
 }

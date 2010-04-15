@@ -3,6 +3,9 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
+	<ImageView android:id="@+id/ImageView01" android:layout_width="fill_parent" android:layout_height="wrap_content" android:drawable="@drawable/sm"></ImageView>
+
+
      <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
@@ -48,5 +51,4 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dip"
         android:text="LOGIN" />
-
 </LinearLayout>      

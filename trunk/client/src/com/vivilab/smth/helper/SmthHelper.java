@@ -1,6 +1,8 @@
 package com.vivilab.smth.helper;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -10,6 +12,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +30,11 @@ import com.vivilab.smth.model.Board;
 import android.util.Log;
 
 public class SmthHelper {
+	public static final int STATE_LOGIN_OK=1;
+	public static final int STATE_LOGIN_FAIL=0;
+	public static final int STATE_SESSION_OK=1;
+	public static final int STATE_SESSION_FAIL=0;
+	
 	private static final String TAG = "SmthHelper";  
 
 	private static String sessionKey;
@@ -45,10 +61,30 @@ public class SmthHelper {
 		}
 		catch(Exception e)
 		{
-			Log.e("SmthHelper","httpGet,login error", e);
+			Log.e(TAG,"httpGet,httpGet error", e);
 			return null;
 		}
 		
+	}
+
+	static private String httpPost(String url, List namevalue) {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost postUrl = new HttpPost(url);
+		try {
+			postUrl.setEntity(new UrlEncodedFormEntity(namevalue,HTTP.UTF_8));
+			HttpResponse response;
+			response = httpclient.execute(postUrl);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				String strResult = EntityUtils.toString(response.getEntity());
+				return strResult;
+			} else {
+				Log.e(TAG, "httpPost response error");
+				return null;
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "httpPost exception:", e);
+			return null;
+		}
 	}
 	
 	static public int login(String id,String passwd)
@@ -58,20 +94,27 @@ public class SmthHelper {
 			String result=httpGet(loginUrl);
 			if(result!=null)
 			{
-				Log.i(TAG, "login,loginOK,key="+result);
-				sessionKey=result;
-				currentUser=id;
-				return 1;
+				JSONObject json = new JSONObject(result);
+				Log.i(TAG, "login,info="+result);
+				String key = json.getString("k");
+				if(!key.equals("0"))
+				{
+					sessionKey=key;
+					currentUser=id;
+					return STATE_LOGIN_OK;
+				}
+				else
+					return STATE_LOGIN_FAIL;
 			}
 			else
 			{
 				Log.i(TAG, "login,result is null");
-				return 0;
+				return STATE_LOGIN_FAIL;
 			}
 		}catch(Exception e)
 		{
 			Log.e(TAG,"login,login error", e);
-			return 0;			
+			return STATE_LOGIN_FAIL;			
 		}
 	}
 	
@@ -88,6 +131,12 @@ public class SmthHelper {
 			if(result!=null)
 			{
 				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"getFavorate session fail");
+					return null;
+				}
 				JSONArray a =json.getJSONArray("r");
 				Log.i(TAG, "getfav r:"+a);
 				List resultList = new ArrayList();
@@ -126,6 +175,12 @@ public class SmthHelper {
 			if(result!=null)
 			{
 				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"getWz session fail");
+					return null;
+				}
 				JSONArray a =json.getJSONArray("r");
 				Log.i(TAG, "getwz r:"+a);
 				List resultList = new ArrayList();
@@ -171,6 +226,12 @@ public class SmthHelper {
 			if(result!=null)
 			{
 				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"getMark session fail");
+					return null;
+				}
 				JSONArray a =json.getJSONArray("r");
 				Log.i(TAG, "getmark r:"+a);
 				List resultList = new ArrayList();
@@ -217,6 +278,12 @@ public class SmthHelper {
 			if(result!=null)
 			{
 				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"getBoard session fail");
+					return null;
+				}
 				JSONArray a =json.getJSONArray("r");
 				Log.i(TAG, "getboard r:"+a);
 				List resultList = new ArrayList();
@@ -261,6 +328,12 @@ public class SmthHelper {
 			if(result!=null)
 			{
 				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"article session fail");
+					return null;
+				}
 				String content = json.getString("r");
 				Log.i(TAG, "article r:"+content);
 				Article article = new Article();
@@ -279,6 +352,43 @@ public class SmthHelper {
 		{
 			Log.e(TAG,"article error", e);
 			return null;
+		}
+		
+	}
+	
+	static public int post(String board,String title,String content,String reid)
+	{
+		try{
+			Log.i(TAG,"ready to post:"+title+","+content);
+			String postUrl;
+			postUrl = gwUrl+"post?key="+sessionKey+"&board="+URLEncoder.encode(board, "utf-8")+"&reid="+reid;
+			List<NameValuePair> namevalue=new ArrayList <NameValuePair>();
+			namevalue.add(new BasicNameValuePair("title", title));
+			namevalue.add(new BasicNameValuePair("content", content));
+			String result=httpPost(postUrl,namevalue);
+			if(result!=null)
+			{
+				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"post session fail");
+					return 1;
+				}
+
+				int state = json.getInt("r");
+				Log.i(TAG, "post r:"+state);
+				return state;
+			}
+			else
+			{
+				Log.w(TAG,"article no post");
+				return 1;
+			}
+		}catch(Exception e)
+		{
+			Log.e(TAG,"article post error", e);
+			return 1;
 		}
 		
 	}

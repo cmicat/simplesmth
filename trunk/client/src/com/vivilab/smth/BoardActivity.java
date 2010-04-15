@@ -2,7 +2,7 @@ package com.vivilab.smth;
 
 import java.util.List;
 
-import com.vivilab.R;
+import com.vivilab.smth.R;
 import com.vivilab.smth.adapter.ArticleListAdapter;
 import com.vivilab.smth.helper.SmthHelper;
 import com.vivilab.smth.model.Board;
@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class BoardActivity extends Activity implements OnItemClickListener{
@@ -26,7 +27,6 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 	private static final String TAG = "BoardActivity";
 	private Context context;
 	private ListView listView;
-	//private List<Article> datas;
 	private ArticleListAdapter datasAdapter;
 	private String boardName;
 	private Board currentBoard;
@@ -42,10 +42,29 @@ public class BoardActivity extends Activity implements OnItemClickListener{
         this.boardName = boardname;
         Log.i(TAG,"ready to get board:"+boardname);
         currentBoard = SmthHelper.getboard(boardname,null);
-        datasAdapter = new ArticleListAdapter(context, currentBoard.getArticles());
-       	listView.setAdapter(datasAdapter);
-       	//listView.u
-       	listView.setOnItemClickListener(this);
+        if(currentBoard !=null)
+        {
+	        if(currentBoard.getArticles().size()>0)
+	        {
+	        	datasAdapter = new ArticleListAdapter(context, currentBoard.getArticles());
+	        	listView.setAdapter(datasAdapter);
+	       	//listView.u
+	        	listView.setOnItemClickListener(this);
+	        }
+	        else
+	        {
+	        	Toast.makeText(getApplicationContext(),getString(R.string.info_no_board),Toast.LENGTH_SHORT).show();
+	        	setResult(RESULT_OK);
+	        	finish();
+	        }
+        }
+        else
+        {
+        	Toast.makeText(getApplicationContext(),getString(R.string.info_session_fail),Toast.LENGTH_SHORT).show();
+        	setResult(RESULT_OK);
+        	finish();
+        	
+        }
     }
 	
 	public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
@@ -94,6 +113,9 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 		    	return true;
 		    case LAST_PAGE:
 		    	doLastPage();
+		    	return true;
+		    case POST:
+		    	doPost();
 		    	return true;
 		    case WENZAI:
 		    	doWenzai();
@@ -164,5 +186,36 @@ public class BoardActivity extends Activity implements OnItemClickListener{
         this.setTitle(boardName+"-"+this.getString(R.string.mark));
         datasAdapter.notifyDataSetChanged();		
 	}
+	
+	private static final int ACTIVITY_POST=0;
+	private void doPost()
+	{
+		Intent i = new Intent(this, PostActivity.class);
+		i.putExtra("board",this.boardName);
+		i.putExtra("reid", "0");
+		startActivityForResult(i, ACTIVITY_POST);
+	}
+	
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    	 super.onActivityResult(requestCode, resultCode, intent);
+    	 if(requestCode == ACTIVITY_POST)
+    	 {
+        	 Bundle extra =intent.getExtras();
+        	 if(extra!=null)
+        	 {
+	        	 int state = extra.getInt("state");
+	    		 if(state!=0)
+	    		 {
+	    			 Toast.makeText(getApplicationContext(),getString(R.string.info_post_fail),Toast.LENGTH_SHORT).show();
+	    		 }
+	    		 else
+	    		 {
+	    			 Toast.makeText(getApplicationContext(),getString(R.string.info_post_ok),Toast.LENGTH_SHORT).show();
+	    			 doLastPage();
+	    		 }
+        	 }
+    	 }
+    }
 
 }
