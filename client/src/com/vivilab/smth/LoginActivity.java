@@ -35,14 +35,7 @@ public class LoginActivity extends Activity implements OnClickListener{
         mDbHelper = new UserDbAdapter(this);
         mDbHelper.open();
         presentActivity = this;
-        if(state !=2)
-        	doLogin();
-        else
-        {
-        	Log.i(TAG,"finish this act");
-        	setResult(RESULT_OK);
-        	finish();
-        }
+        doLogin();
     }
 
     
@@ -129,10 +122,11 @@ public class LoginActivity extends Activity implements OnClickListener{
         Log.i(TAG,"i m on pause!what shall i do??");
     }
 	
-    protected void onResume() {
-        super.onResume();
-        state =2;
-        Log.i(TAG,"i m on resume!what shall i do??");
+    protected void onRestart() {
+        super.onRestart();
+    	Log.i(TAG,"finish this act");
+    	setResult(RESULT_OK);
+    	finish();
     }
 	
 }

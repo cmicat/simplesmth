@@ -7,6 +7,7 @@ import com.vivilab.smth.model.Article;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -97,7 +98,10 @@ public class ArticleActivity extends Activity{
 		Intent i = new Intent(this, PostActivity.class);
 		i.putExtra("board",board);
 		i.putExtra("reid", article.getId());
-		i.putExtra("title", "Re:"+article.getTitle());
+		if(article.getTitle().startsWith(" Re"))
+			i.putExtra("title", article.getTitle());
+		else
+			i.putExtra("title", "Re:"+article.getTitle());
 		startActivityForResult(i, ACTIVITY_REPLY);
 	}
 	
@@ -126,6 +130,11 @@ public class ArticleActivity extends Activity{
  		i.putExtra("board", board);
 		startActivity(i);
 
+    }
+    protected void onStop() {
+        super.onStop();
+    	setResult(RESULT_OK);
+    	finish();
     }
 
 }
