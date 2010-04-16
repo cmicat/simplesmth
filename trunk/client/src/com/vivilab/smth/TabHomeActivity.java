@@ -137,6 +137,7 @@ public class TabHomeActivity extends TabActivity{
 
 	private void doChangeUser()
 	{
+		SmthHelper.logout();
         mDbHelper = new UserDbAdapter(this);
         mDbHelper.open();
         mDbHelper.clearUser();
@@ -148,7 +149,8 @@ public class TabHomeActivity extends TabActivity{
 	private void doExit()
 	{
 		SmthHelper.logout();
-		System.exit(0);
+    	setResult(RESULT_OK);
+    	finish();
 	}
 	
 	private void doAbout()

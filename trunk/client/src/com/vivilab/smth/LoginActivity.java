@@ -132,6 +132,7 @@ public class LoginActivity extends Activity implements OnClickListener{
     	Log.i(TAG,"logout,finish this act");
     	setResult(RESULT_OK);
     	finish();
+    	System.exit(0);
     }
 
     protected void onStop() {
