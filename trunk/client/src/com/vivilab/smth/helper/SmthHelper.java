@@ -39,7 +39,8 @@ public class SmthHelper {
 
 	private static String sessionKey;
 	//private final static String gwUrl = "http://vivilab.com/";
-	private final static String gwUrl = "http://smth.vivilab.info:8000/";
+	private final static String gwUrl = "http://smth.vivilab.info/";
+//	private final static String gwUrl = "http://192.168.1.88:8000/";
 	private static String currentUser;
 	
 	static private String httpGet(String url)
@@ -115,6 +116,21 @@ public class SmthHelper {
 		{
 			Log.e(TAG,"login,login error", e);
 			return STATE_LOGIN_FAIL;			
+		}
+	}
+	
+	static public int logout()
+	{
+		try{
+			String logoutUrl = gwUrl + "logout?key="+sessionKey;
+			String result = httpGet(logoutUrl);
+			Log.i(TAG,"do logout,r:"+result);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			Log.e(TAG,"do logout exception:",e);
+			return 1;
 		}
 	}
 	

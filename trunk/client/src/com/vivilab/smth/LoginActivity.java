@@ -124,9 +124,17 @@ public class LoginActivity extends Activity implements OnClickListener{
 	
     protected void onRestart() {
         super.onRestart();
-    	Log.i(TAG,"finish this act");
+    	SmthHelper.logout();
+    	Log.i(TAG,"logout,finish this act");
     	setResult(RESULT_OK);
     	finish();
     }
-	
+
+    protected void onStop() {
+        super.onStop();
+    	Log.i(TAG,"after login,finish this act");
+    	setResult(RESULT_OK);
+    	finish();
+    }
+ 
 }
