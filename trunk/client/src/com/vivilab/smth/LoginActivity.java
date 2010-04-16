@@ -58,8 +58,12 @@ public class LoginActivity extends Activity implements OnClickListener{
 	        mUserid = (EditText) findViewById(R.id.userid);
 	        mPasswd = (EditText) findViewById(R.id.passwd);
 	        logo  = (ImageView) findViewById(R.id.ImageView01);
-	        logo.setImageResource(R.drawable.sm);
-	        loginButton.setOnClickListener(this);        	
+	        if(logo!=null)
+	        {
+	        	//landscape mode no image
+	        	logo.setImageResource(R.drawable.sm);
+	        	loginButton.setOnClickListener(this);
+	        }
         }
         
     }
@@ -133,8 +137,8 @@ public class LoginActivity extends Activity implements OnClickListener{
     protected void onStop() {
         super.onStop();
     	Log.i(TAG,"after login,finish this act");
-    	setResult(RESULT_OK);
-    	finish();
+//    	setResult(RESULT_OK);
+//    	finish();
     }
  
 }
