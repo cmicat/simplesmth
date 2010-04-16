@@ -1,0 +1,162 @@
+# # -*- coding: utf-8 -*-  
+from HTMLParser import HTMLParser
+
+class FavProcessor(HTMLParser):
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.in_a = 0
+        self.boardurl = []
+        self.boards = []
+    
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a':
+            href = [v for k, v in attrs if k=='href']
+            if href[0].find('act=board')>0:
+                self.in_a=1
+                self.boardurl.append(href[0])
+
+
+    def handle_endtag(self, tag):
+        if tag == 'a':
+            if self.in_a==1:
+                self.in_a=0
+
+
+    def handle_data(self,data):
+        if self.in_a==1:
+            self.boards.append(data)
+            
+            
+    def getfav(self):
+        result = []
+        i =0
+        for v in self.boards:
+            pare={}
+            pare[v] = self.boardurl[i]
+            i=i+1
+            result.append(pare)
+        return result
+       
+class BoardProcessor(HTMLParser):
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.threads = []
+        self.btag = 0
+        self.linkTag = 0
+        self.tcount = 0
+        self.preinfo = ""
+        self.ppage = 0
+        self.npage = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'br': #will be thread info next
+            self.btag = 1
+        if tag == 'a':
+            if self.btag == 1:
+                self.btag =0           
+            href = [v for k, v in attrs if k=='href']
+            url = href[0]
+            idpos = url.find('id=')
+            if idpos >0:
+                self.linkTag =1
+                threadId = url[idpos+3:len(url)]
+                thread = {}
+                thread['id'] = threadId
+                thread['info'] = self.preinfo
+                self.threads.append(thread)
+            pagetag = url.find('page=')
+            if pagetag > 0:
+                if self.ppage!=0 and self.ppage!=1:
+                    self.npage = int(url[pagetag+5:len(url)])
+                else:
+                    self.ppage = int(url[pagetag+5:len(url)])
+                
+    def handle_data(self,data):
+#        utfdata = data.decode("gb2312").encode("utf8")
+        utfdata = data
+        if self.linkTag==1:
+            thread = self.threads[self.tcount]
+            thread ['title'] = utfdata
+        if self.btag==1:
+            self.preinfo = utfdata
+
+    def handle_endtag(self, tag):
+        if tag == 'a':
+            if self.linkTag==1:
+                self.linkTag=0
+                self.tcount = self.tcount +1
+       
+    def showboard(self):
+        return self.threads
+    
+    def getppage(self):
+        return self.ppage
+    
+    def getnpage(self):
+        return self.npage
+
+class ArticleProcessor(HTMLParser):
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.content = ""
+        self.btag = 0
+        self.count =0
+        self.acount =0
+        self.hasTag =0
+        self.title = ''
+        self.topid = 0
+        self.aid = 0
+                
+    def handle_data(self,data):
+        if self.btag==1:
+            self.count = self.count+1
+#            print unicode(data,"gbk")+',count'+str(self.count)+',len='+str(len(data))
+            if self.count == 3:
+                head = data.split(':')
+                self.title = ''.join(v for v in head[1::])
+#                print unicode(head[1],"gbk")
+            if self.hasTag == 1:
+                self.content=self.content+"\n"+data
+            else:
+                self.content=self.content+data
+        self.hasTag = 0
+        
+    def handle_endtag(self, tag):
+        if tag == 'p':
+            self.btag = 1
+        if tag == 'body':
+            self.btag = 0
+
+    def handle_starttag(self, tag, attrs):
+        self.hasTag = 1
+        if tag == 'a':
+            self.acount = self.acount + 1
+            if self.acount == 2:
+                href = [v for k, v in attrs if k=='href']
+                url = href[0]
+                print url
+                idpos = url.find('id=')
+                self.topid = url[idpos+3:len(url)]
+            if self.acount == 1:
+                href = [v for k, v in attrs if k=='href']
+                url = href[0]
+                print url
+                idpos = url.find('id=')
+                self.aid = url[idpos+3:len(url)]
+
+                      
+                            
+    def show(self):
+        return self.content
+        
+    def gettitle(self):
+        return self.title
+
+    def gettopid(self):
+        return self.topid
+    def getid(self):
+        return self.aid
