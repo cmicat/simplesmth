@@ -30,4 +30,7 @@
     <string name="board_name">讨论区</string>
     <string name="info_no_board">该讨论区不存在</string>
     <string name="info_session_fail">超时或未登录，请重新登录</string>
+    <string name="info_exit">注销</string>
+    <string name="info_about">关于</string>
+    <string name="info_version">SimpleSMTH 0.9 beta\noasis2k@smth</string>
 </resources>

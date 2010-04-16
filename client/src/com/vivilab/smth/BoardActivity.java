@@ -135,10 +135,13 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 		switch(currentBoard.getFtype()){
 		case 0:
 			currentBoard = SmthHelper.getboard(this.boardName, String.valueOf(currentBoard.getPpage()));
+			break;
 		case 1:
 			currentBoard = SmthHelper.getwz(this.boardName, String.valueOf(currentBoard.getPpage()));
+			break;
 		case 3:
 			currentBoard = SmthHelper.getmark(this.boardName, String.valueOf(currentBoard.getPpage()));
+			break;
 		}
         datasAdapter.setDatas(currentBoard.getArticles());
         datasAdapter.notifyDataSetChanged();
@@ -150,10 +153,13 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 			switch(currentBoard.getFtype()){
 			case 0:
 				currentBoard = SmthHelper.getboard(this.boardName, String.valueOf(currentBoard.getNpage()));
+				break;
 			case 1:
 				currentBoard = SmthHelper.getwz(this.boardName, String.valueOf(currentBoard.getNpage()));
+				break;
 			case 3:
 				currentBoard = SmthHelper.getmark(this.boardName, String.valueOf(currentBoard.getNpage()));
+				break;
 			}
 	        datasAdapter.setDatas(currentBoard.getArticles());		
 	        datasAdapter.notifyDataSetChanged();
