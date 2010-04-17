@@ -18,12 +18,16 @@ public class ArticleActivity extends Activity{
 	private Article article;
 	private String board;
 	private String id;
+	private String from;
+	private final static String TAG="ArticleActivity";
+	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.article);
         Bundle extras = getIntent().getExtras();
         board = extras.getString("board");
         id=extras.getString("id");
+        from = extras.getString("from");
         String title = extras.getString("title");
         this.setTitle(title);
         article = SmthHelper.article(board, id,null);
@@ -45,12 +49,14 @@ public class ArticleActivity extends Activity{
 	public static final int READ_TN = Menu.FIRST+1;
 	public static final int READ_TOP = Menu.FIRST+2;
 	public static final int READ_REPLY = Menu.FIRST+3;
+	public static final int BACK = Menu.FIRST+4;
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    menu.add(0, READ_TP, 0, R.string.read_tp);
 	    menu.add(0, READ_TN, 0, R.string.read_tn);
 	    menu.add(0, READ_TOP, 0, R.string.read_top);
 	    menu.add(0, READ_REPLY, 0, R.string.read_reply);
+	    menu.add(0, BACK, 0, R.string.back_board);
 	    return true;
 	}
 
@@ -67,6 +73,9 @@ public class ArticleActivity extends Activity{
 		        return true;
 		    case READ_REPLY:
 		    	doReply();
+		        return true;
+		    case BACK:
+		    	doBack();
 		        return true;
 	    }
 	    return false;
@@ -103,6 +112,22 @@ public class ArticleActivity extends Activity{
 		else
 			i.putExtra("title", "Re:"+article.getTitle());
 		startActivityForResult(i, ACTIVITY_REPLY);
+	}
+	
+	private void doBack()
+	{
+		if(from.equals("top"))
+		{
+			Log.i(TAG, "we are going to show board:" + this.board);
+			Intent i = new Intent(this, BoardActivity.class);
+			i.putExtra("board", this.board);
+			startActivity(i);
+		}
+		else
+		{
+	    	setResult(RESULT_OK);
+	    	finish();
+		}
 	}
 	
     @Override

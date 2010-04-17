@@ -15,6 +15,7 @@
     <string name="read_tn">同主题下篇</string>
     <string name="read_top">楼主贴</string>
     <string name="read_reply">回复</string>
+    <string name="back_board">返回版面</string>
     <string name="title">标题</string>
     <string name="body">内容</string>
     <string name="info_inpost">发表文章</string>
@@ -25,6 +26,7 @@
     <string name="info_login_fail">登录失败</string>
     <string name="info_no_fav">收藏夹为空</string>
     <string name="info_getfav">打开收藏夹，请等待...</string>
+    <string name="info_gettop10">获取当日十大，请等待...</string>
     <string name="info_goboard">去讨论区</string>
     <string name="info_changeuser">更改登录用户</string>
     <string name="board_name">讨论区</string>
