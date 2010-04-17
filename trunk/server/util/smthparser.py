@@ -1,5 +1,6 @@
 # # -*- coding: utf-8 -*-  
 from HTMLParser import HTMLParser
+from xml.dom import minidom
 
 class FavProcessor(HTMLParser):
 
@@ -160,3 +161,25 @@ class ArticleProcessor(HTMLParser):
         return self.topid
     def getid(self):
         return self.aid
+
+class Top10Parser():
+    def __init__(self,xmldata):
+        self.threadList = []
+        import StringIO
+        self.xmldata = StringIO.StringIO(xmldata)
+
+    def getall(self):
+        xmldoc = minidom.parse(self.xmldata)
+        itemlist= xmldoc.getElementsByTagName('item')
+        for item in itemlist:
+            one = {}
+            one['t'] = item.getElementsByTagName('title')[0].firstChild.data
+            url = item.getElementsByTagName('link')[0].firstChild.data
+            gpos = url.find('gid=')
+            bpos = url.find('board=')
+            one['gid'] = url[gpos+4:len(url)]
+            one['b'] = url[bpos+6:gpos-1]
+            one['a'] = item.getElementsByTagName('author')[0].firstChild.data
+            one['d'] = item.getElementsByTagName('pubDate')[0].firstChild.data
+            self.threadList.append(one)
+        return self.threadList

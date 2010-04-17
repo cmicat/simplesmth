@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import urllib
 import re
 import os
@@ -5,8 +6,8 @@ import urllib2
 import httplib
 import cookielib
 import socket
-import urllister
 from django.conf import settings
+
 ckpath=settings.COOKIE_PATH
 
 class SimpleSMTH:
