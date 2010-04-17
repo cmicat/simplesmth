@@ -74,3 +74,34 @@
 2010-04-16 02:55:19,024 - INFO - logout key:2605891374
 2010-04-16 02:55:21,886 - WARNING - logout a invalid key
 2010-04-16 02:55:21,886 - INFO - logout key:2605891374
+2010-04-17 02:46:08,188 - INFO - login user:datastream,r:0
+2010-04-17 02:47:05,467 - INFO - login user:datastream,r:0
+2010-04-17 02:47:46,616 - INFO - login user:datastream,r:0
+2010-04-17 02:48:00,223 - INFO - login user:datastream,r:0
+2010-04-17 02:48:02,588 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:48:07,583 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:48:59,164 - INFO - logout key:6189502734
+2010-04-17 02:49:21,968 - INFO - login user:datastream,r:0
+2010-04-17 02:49:24,751 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:51:17,153 - INFO - login user:datastream,r:0
+2010-04-17 02:51:19,271 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:52:21,226 - INFO - login user:datastream,r:0
+2010-04-17 02:52:23,422 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:52:29,684 - INFO - logout key:0687293541
+2010-04-17 02:52:29,970 - WARNING - logout a invalid key
+2010-04-17 02:52:29,970 - INFO - logout key:0687293541
+2010-04-17 02:52:51,597 - INFO - login user:datastream,r:0
+2010-04-17 02:52:53,982 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:55:29,958 - INFO - logout key:0782149356
+2010-04-17 02:55:50,003 - INFO - login user:datastream,r:0
+2010-04-17 02:55:52,394 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:58:32,433 - INFO - login user:datastream,r:0
+2010-04-17 02:58:34,611 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 02:58:36,900 - INFO - logout key:9362107485
+2010-04-17 02:58:37,212 - WARNING - logout a invalid key
+2010-04-17 02:58:37,212 - INFO - logout key:9362107485
+2010-04-17 02:58:55,982 - INFO - login user:datastream,r:0
+2010-04-17 02:58:58,354 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}
+2010-04-17 03:03:24,675 - INFO - logout key:7183905426
+2010-04-17 03:03:46,920 - INFO - login user:datastream,r:0
+2010-04-17 03:03:49,153 - INFO - getfav,r:{"r": [{"Aero": "?act=board&board=Aero"}, {"DigiImage": "?act=board&board=DigiImage"}, {"FamilyLife": "?act=board&board=FamilyLife"}, {"Love": "?act=board&board=Love"}, {"Marvel": "?act=board&board=Marvel"}, {"Photo": "?act=board&board=Photo"}, {"Test": "?act=board&board=Test"}], "l": 1}

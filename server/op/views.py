@@ -5,6 +5,7 @@ from smth.util.smthapi import SimpleSMTH
 from smth.util.smthparser import FavProcessor
 from smth.util.smthparser import BoardProcessor
 from smth.util.smthparser import ArticleProcessor
+from smth.util.smthparser import Top10Parser
 from smth.util.json import json_encode
 from smth.util.json import json_result
 from django.conf import settings
@@ -169,3 +170,22 @@ def post(request):
     print result2
     return HttpResponse(result2)
 
+topfeed=settings.SMTH_TOPFEED
+
+def gettop(request):
+    try:
+        key=request.GET['key']
+        smth2 = SimpleSMTH()
+        smth2.setCj(key)
+    except:
+        fail = {}
+        fail['l']=0
+        return HttpResponse(json_encode(fail))
+    result={}
+    result['l']=1
+    simpleout=smth2.get_url_data(topfeed)
+    parser = Top10Parser(simpleout)
+    content = parser.getall()
+    result['r'] = content
+    result2 = json_encode(result)
+    return HttpResponse(result2)

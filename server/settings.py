@@ -90,3 +90,4 @@ INSTALLED_APPS = (
 
 SMTH_URL = 'http://www.newsmth.net/atomic.php'
 COOKIE_PATH = '/home/oasis/web/smth/cookies/'
+SMTH_TOPFEED = 'http://www.newsmth.net/rssi.php?h=1'
