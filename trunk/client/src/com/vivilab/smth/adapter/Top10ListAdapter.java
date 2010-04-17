@@ -1,30 +1,30 @@
 package com.vivilab.smth.adapter;
-import java.util.List;
 
-import com.vivilab.smth.model.Article;
-import com.vivilab.smth.view.ArticleItemView;
+import java.util.List;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class ArticleListAdapter extends BaseAdapter {
+import com.vivilab.smth.model.TopTenPost;
+import com.vivilab.smth.view.Top10ItemView;
 
+public class Top10ListAdapter extends BaseAdapter{
 	private static final String TAG = "ArticleListAdapter";
 	private Context context;
-	private List<Article> datas;
+	private List<TopTenPost> datas;
 	
-	public ArticleListAdapter(Context context) {
+	public Top10ListAdapter(Context context) {
 		this.context = context;
 	}
 
-	public ArticleListAdapter(Context context, List<Article> datas) {
+	public Top10ListAdapter(Context context, List<TopTenPost> datas) {
 		this.context = context;
 		this.datas = datas;
 	}
 
-	public void setDatas(List<Article> datas) {
+	public void setDatas(List<TopTenPost> datas) {
 		this.datas = datas;
 	}
 
@@ -45,13 +45,14 @@ public class ArticleListAdapter extends BaseAdapter {
 			return null;
 		}
 		if(view == null) {
-			ArticleItemView itemView = new ArticleItemView(context);
-			itemView.updateView(datas.get(location));
+			Top10ItemView itemView = new Top10ItemView(context);
+			itemView.updateView(datas.get(location),location);
 			view = itemView;
 		} else {
-			((ArticleItemView) view).updateView(datas.get(location));
+			((Top10ItemView) view).updateView(datas.get(location),location);
 		}
 		return view;
 	}
 	
+
 }

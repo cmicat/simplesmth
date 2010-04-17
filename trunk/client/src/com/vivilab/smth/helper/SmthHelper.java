@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import com.vivilab.smth.model.Article;
 import com.vivilab.smth.model.Board;
+import com.vivilab.smth.model.TopTenPost;
 
 import android.util.Log;
 
@@ -39,8 +40,8 @@ public class SmthHelper {
 
 	private static String sessionKey;
 	//private final static String gwUrl = "http://vivilab.com/";
-	private final static String gwUrl = "http://smth.vivilab.info/";
-//	private final static String gwUrl = "http://192.168.1.88:8000/";
+//	private final static String gwUrl = "http://smth.vivilab.info/";
+	private final static String gwUrl = "http://192.168.1.152:8000/";
 	private static String currentUser;
 	
 	static private String httpGet(String url)
@@ -177,6 +178,40 @@ public class SmthHelper {
 		
 	}
 	
+	static public List getTopTopic()
+	{
+		try{
+			String topUrl = gwUrl+"gettop?key="+URLEncoder.encode(sessionKey, "utf-8");
+			String result=httpGet(topUrl);
+			if(result!=null)
+			{
+				JSONObject json = new JSONObject(result);
+				JSONArray a =json.getJSONArray("r");
+				Log.i(TAG, "gettop:"+a);
+				List resultList = new ArrayList();
+				
+				for(int i=0;i<a.length();i++)
+				{
+					JSONObject b = a.getJSONObject(i);
+					TopTenPost top = new TopTenPost();
+					top.setAuthor(b.getString("a"));
+					top.setBoard(b.getString("b"));
+					top.setGid(b.getString("gid"));
+					top.setPubDate(b.getString("d"));
+					top.setTitle(b.getString("t"));
+					resultList.add(top);
+				}
+				return resultList;
+			}
+			else
+				return null;
+		}catch(Exception e)
+		{
+			Log.e(TAG,"getTop error", e);
+			return null;
+		}
+		
+	}
 	
 	static public Board getwz(String name,String pageaddition)
 	{

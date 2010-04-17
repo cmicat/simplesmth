@@ -76,6 +76,7 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 		Log.i(TAG, "we are going to show article:"+aid);
 		state = 2;
 		Intent i = new Intent(this, ArticleActivity.class);
+		i.putExtra("from", "board");
 		i.putExtra("id",aid);
 		i.putExtra("board",this.boardName);
 		i.putExtra("title",title);
