@@ -41,7 +41,7 @@ public class SmthHelper {
 	private static String sessionKey;
 	//private final static String gwUrl = "http://vivilab.com/";
 //	private final static String gwUrl = "http://smth.vivilab.info/";
-	private final static String gwUrl = "http://192.168.1.152:8000/";
+	private final static String gwUrl = "http://192.168.1.4:8000/";
 	private static String currentUser;
 	
 	static private String httpGet(String url)

@@ -19,6 +19,7 @@ public class ArticleActivity extends Activity{
 	private String board;
 	private String id;
 	private String from;
+	private String title;
 	private final static String TAG="ArticleActivity";
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class ArticleActivity extends Activity{
         board = extras.getString("board");
         id=extras.getString("id");
         from = extras.getString("from");
-        String title = extras.getString("title");
+        title = extras.getString("title");
         this.setTitle(title);
         article = SmthHelper.article(board, id,null);
         if(article!=null)
@@ -107,10 +108,14 @@ public class ArticleActivity extends Activity{
 		Intent i = new Intent(this, PostActivity.class);
 		i.putExtra("board",board);
 		i.putExtra("reid", article.getId());
-		if(article.getTitle().startsWith(" Re"))
-			i.putExtra("title", article.getTitle());
+		if(title.startsWith("● "))
+		{
+			title = title.replace("● ", "");
+		}
+		if(title.startsWith("Re"))
+			i.putExtra("title", title);
 		else
-			i.putExtra("title", "Re:"+article.getTitle());
+			i.putExtra("title", "Re: "+title);
 		startActivityForResult(i, ACTIVITY_REPLY);
 	}
 	
