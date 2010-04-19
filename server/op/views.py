@@ -6,6 +6,7 @@ from smth.util.smthparser import FavProcessor
 from smth.util.smthparser import BoardProcessor
 from smth.util.smthparser import ArticleProcessor
 from smth.util.smthparser import Top10Parser
+from smth.util.smthparser import TopicProcessor
 from smth.util.json import json_encode
 from smth.util.json import json_result
 from django.conf import settings
@@ -109,6 +110,39 @@ def getboard(request):
     result2 = json_encode(result)
     print result2
     return HttpResponse(result2)
+
+def gettopic(request):
+    try:
+        key=request.GET['key']
+        smth2 = SimpleSMTH()
+        smth2.setCj(key)
+    except:
+        fail = {}
+        fail['l']=0
+        return HttpResponse(json_encode(fail))
+    result={}
+    result['l']=1
+    name = request.GET['board']
+    try:
+        page = request.GET['page']
+    except:
+        page = 0
+    try:
+        ftype = request.GET['ftype']
+    except:
+        ftype = 6
+    if page > 0:
+        simpleout=smth2.get_url_data('http://www.newsmth.net/bbsdoc.php?&board='+name+'&page='+page+'&ftype='+str(ftype))
+    else:
+        simpleout=smth2.get_url_data('http://www.newsmth.net/bbsdoc.php?board='+name+'&ftype='+str(ftype))
+    process = TopicProcessor(unicode(simpleout,"gbk"))
+    result['r']=process.getall()
+    result['p']=process.getpage()
+    result2 = json_encode(result)
+    print result2
+    return HttpResponse(result2)
+
+
      
 def article(request):
     try:

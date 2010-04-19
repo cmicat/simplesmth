@@ -99,6 +99,35 @@ class BoardProcessor(HTMLParser):
     def getnpage(self):
         return self.npage
 
+
+class TopicProcessor():
+    def __init__(self,content):
+        self.threadList = []
+        import StringIO
+        self.contentStream = StringIO.StringIO(content)
+        self.page = 0
+        
+    def getall(self):
+        i = 0
+        for line in self.contentStream.readlines():
+            i = i+1
+            if i == 21: #get page
+                parser = line.split(',')
+                self.page = int(parser[5])
+            elif line.startswith('c.o'): #get one thread
+                parser = line.split(',')
+                thread = {}
+                thread['id'] = parser[1]
+                thread['a'] = parser[2][1:-1]
+                thread['d'] = parser[4]
+                thread['t'] = parser[5][1:-1]
+                self.threadList.append(thread)
+        self.contentStream.close()
+        return self.threadList
+    
+    def getpage(self):
+        return self.page              
+
 class ArticleProcessor(HTMLParser):
 
     def __init__(self):
