@@ -35,4 +35,7 @@
     <string name="info_exit">注销</string>
     <string name="info_about">关于</string>
     <string name="info_version">SimpleSMTH 0.9 beta\noasis2k@smth</string>
+    <string name="info_board_1">同主题模式</string>
+    <string name="info_board_2">传统模式</string>
+    <string name="info_config">配置</string>
 </resources>

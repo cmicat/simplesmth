@@ -93,14 +93,22 @@ public class ShowTop10Activity extends ListActivity implements OnItemClickListen
 
 		public void run() {
 			topList = SmthHelper.getTopTopic();
-			datasAdapter = new Top10ListAdapter(currentActivity, topList);
-			//datasAdapter.setDatas(topList);
-			int size = topList.size();
+			int size;
+			if(topList!=null)
+			{
+				datasAdapter = new Top10ListAdapter(currentActivity, topList);
+				size = topList.size();
+			}
+			else
+			{
+				size = 0;
+			}
 			Message msg = mHandler.obtainMessage();
 			Bundle b = new Bundle();
 			b.putInt("size", size);
 			msg.setData(b);
 			mHandler.sendMessage(msg);
+			//datasAdapter.setDatas(topList);
 		}
 	}
 	

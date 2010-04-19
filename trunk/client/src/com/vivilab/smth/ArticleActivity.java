@@ -6,7 +6,9 @@ import com.vivilab.smth.model.Article;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,9 @@ public class ArticleActivity extends Activity{
         if(article!=null)
         {
         	tv = (TextView) findViewById(R.id.content);
+   		 	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+   		 	int textSize = Integer.parseInt(prefs.getString("TextSize", "15"));
+        	tv.setTextSize(textSize);
         	tv.setText(article.getContent());
         }else
         {

@@ -12,7 +12,9 @@ import android.app.Activity;
 //import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 	private String boardName;
 	private Board currentBoard;
 	private int state;
+	private int boardMode;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,12 @@ public class BoardActivity extends Activity implements OnItemClickListener{
         this.setTitle(boardname);
         this.boardName = boardname;
         Log.i(TAG,"ready to get board:"+boardname);
-        currentBoard = SmthHelper.getboard(boardname,null);
+		 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		 boardMode = Integer.parseInt(prefs.getString("BoardType", "1"));
+       if(boardMode !=1)
+    	   currentBoard = SmthHelper.getboard(boardname,null);
+       else
+    	   currentBoard = SmthHelper.gettopic(boardname, null);
         if(currentBoard !=null)
         {
 	        if(currentBoard.getArticles().size()>0)
@@ -143,6 +151,10 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 		case 3:
 			currentBoard = SmthHelper.getmark(this.boardName, String.valueOf(currentBoard.getPpage()));
 			break;
+		case 6:
+			currentBoard = SmthHelper.gettopic(this.boardName, String.valueOf(currentBoard.getPpage()));
+			break;
+			
 		}
         datasAdapter.setDatas(currentBoard.getArticles());
         datasAdapter.notifyDataSetChanged();
@@ -160,6 +172,9 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 				break;
 			case 3:
 				currentBoard = SmthHelper.getmark(this.boardName, String.valueOf(currentBoard.getNpage()));
+				break;
+			case 6:
+				currentBoard = SmthHelper.gettopic(this.boardName, String.valueOf(currentBoard.getNpage()));
 				break;
 			}
 	        datasAdapter.setDatas(currentBoard.getArticles());		
