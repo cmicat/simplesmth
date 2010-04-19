@@ -57,12 +57,14 @@ public class TabHomeActivity extends TabActivity{
 	public static final int GOBOARD = Menu.FIRST;
 	public static final int CHANGEUSER = Menu.FIRST+1;
 	public static final int EXIT = Menu.FIRST+2;
-	public static final int ABOUT = Menu.FIRST+3;
+	public static final int CONFIG = Menu.FIRST+3;
+	public static final int ABOUT = Menu.FIRST+4;
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    menu.add(0, GOBOARD, 0, R.string.info_goboard);
 	    menu.add(0, CHANGEUSER, 0, R.string.info_changeuser);
 	    menu.add(0, EXIT, 0, R.string.info_exit);
+	    menu.add(0, CONFIG, 0, R.string.info_config);
 	    menu.add(0, ABOUT, 0, R.string.info_about);
 	    return true;
 	}	
@@ -76,6 +78,9 @@ public class TabHomeActivity extends TabActivity{
 		        return true;
 		    case EXIT:
 		    	doExit();
+		        return true;
+		    case CONFIG:
+		    	doConfig();
 		        return true;
 		    case ABOUT:
 		    	doAbout();
@@ -144,6 +149,13 @@ public class TabHomeActivity extends TabActivity{
         Intent i = new Intent(this,LoginActivity.class);
         startActivity(i);
 	}
+
+	private void doConfig()
+	{
+        Intent i = new Intent(this,SmthPreference.class);
+        startActivity(i);
+	}
+
 	
 	private void doExit()
 	{

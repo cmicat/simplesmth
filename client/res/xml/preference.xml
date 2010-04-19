@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+ xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="基本设置">
+    <EditTextPreference
+        android:key="TextSize"
+        android:title="正文字体大小"
+        android:summary=""
+        android:dialogTitle="文章字体大小"
+    />
+    <EditTextPreference
+        android:key="ServerUrl"
+        android:title="水木API地址"
+        android:summary="http://smth.vivilab.info/"
+        android:dialogTitle="水木API地址"
+    />
+	<ListPreference
+        android:key="BoardType"
+        android:title="默认版面模式"
+        android:summary="ListPreference测试"
+        android:dialogTitle="默认版面模式"
+        android:entries="@array/entries_list_boardtype"
+        android:entryValues="@array/entriesvalue_list_boardtype"
+    />    
+    </PreferenceCategory>
+</PreferenceScreen>

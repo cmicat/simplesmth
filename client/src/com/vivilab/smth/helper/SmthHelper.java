@@ -8,9 +8,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,7 +44,7 @@ public class SmthHelper {
 	private static String sessionKey;
 	//private final static String gwUrl = "http://vivilab.com/";
 //	private final static String gwUrl = "http://smth.vivilab.info/";
-	private final static String gwUrl = "http://192.168.1.4:8000/";
+	private static String gwUrl;
 	private static String currentUser;
 	
 	static private String httpGet(String url)
@@ -89,6 +92,11 @@ public class SmthHelper {
 		}
 	}
 	
+	static public void setApiHost(String url)
+	{
+		gwUrl = url;
+	}
+
 	static public int login(String id,String passwd)
 	{
 		try{
@@ -315,6 +323,61 @@ public class SmthHelper {
 		
 	}
 
+	static public Board gettopic(String name,String pageaddition)
+	{
+		try{
+			String boardUrl;
+			if(pageaddition!=null)
+			{
+				boardUrl =gwUrl+"gettopic?key="+sessionKey+"&board="+name+"&page="+pageaddition;
+			}else
+				boardUrl = gwUrl+"gettopic?key="+sessionKey+"&board="+name;
+			String result=httpGet(boardUrl);
+			if(result!=null)
+			{
+				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"getBoard session fail");
+					return null;
+				}
+				JSONArray a =json.getJSONArray("r");
+				Log.i(TAG, "gettopic r:"+a);
+				List resultList = new ArrayList();
+				for(int i=0;i<a.length();i++)
+				{
+					JSONObject b = a.getJSONObject(i);
+					Article at = new Article();
+					at.setId(b.getString("id"));
+					String timet = b.getString("d");
+					String author = b.getString("a");
+					Date pubDate = new Date(Long.valueOf(timet+"000"));
+					SimpleDateFormat sdf = new SimpleDateFormat("MM-dd",Locale.US); 
+					at.setInfo(author +" "+ sdf.format(pubDate));
+					at.setTitle("● "+b.getString("t"));
+					resultList.add(at);
+				}
+				Board board = new Board();
+				board.setArticles(resultList);
+				int page = json.getInt("p");
+				board.setPpage(page-1);
+				board.setNpage(page+1);
+				board.setFtype(6);
+				return board;
+			}
+			else
+			{
+				Log.w(TAG,"gettopic no result");
+				return null;
+			}
+		}catch(Exception e)
+		{
+			Log.e(TAG,"gettopic error", e);
+			return null;
+		}
+		
+	}
 	
 	static public Board getboard(String name,String pageaddition)
 	{

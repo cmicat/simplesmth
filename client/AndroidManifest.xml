@@ -19,6 +19,7 @@
 <activity android:name=".BoardActivity"></activity>
 <activity android:name=".ArticleActivity"></activity>
 <activity android:name=".PostActivity"></activity>
+<activity android:name=".SmthPreference"></activity>
 </application>
 
 

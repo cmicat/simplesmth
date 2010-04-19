@@ -85,7 +85,11 @@ public class ShowFavActivity extends ListActivity implements
 
 		public void run() {
 			myFav = SmthHelper.getFavorate();
-			int size = myFav.size();
+			int size;
+			if(myFav!=null)
+				size = myFav.size();
+			else
+				size = 0;
 			Message msg = mHandler.obtainMessage();
 			Bundle b = new Bundle();
 			b.putInt("size", size);

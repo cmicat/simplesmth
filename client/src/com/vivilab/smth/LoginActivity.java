@@ -6,10 +6,12 @@ import com.vivilab.smth.helper.SmthHelper;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,8 +64,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 	        {
 	        	//landscape mode no image
 	        	logo.setImageResource(R.drawable.sm);
-	        	loginButton.setOnClickListener(this);
 	        }
+        	loginButton.setOnClickListener(this);
         }
         
     }
@@ -107,6 +109,9 @@ public class LoginActivity extends Activity implements OnClickListener{
 		}
 		
 		 public void run() {
+			 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(presentActivity);
+			 String apiHost = prefs.getString("ServerUrl", "http://smth.vivilab.info/");
+			 SmthHelper.setApiHost(apiHost);
 			 int state=SmthHelper.login(mUserid,mPasswd);
 			 if(state>0 && mFromDB!=1)
 				 mDbHelper.createUser(mUserid, mPasswd);
@@ -124,6 +129,11 @@ public class LoginActivity extends Activity implements OnClickListener{
         super.onPause();
         state = 1;
         Log.i(TAG,"i m on pause!what shall i do??");
+    }
+    
+    protected void onDestroy(){
+    	super.onDestroy();
+    	mDbHelper.close();
     }
 	
     protected void onRestart() {

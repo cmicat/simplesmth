@@ -21,10 +21,10 @@
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID:"/>
+        android:text="帐号:"/>
     <EditText
         android:id="@+id/userid"
-        android:layout_width="fill_parent"
+        android:layout_width="200px"
         android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background"/>
 </LinearLayout>
@@ -40,7 +40,7 @@
         android:text="密码:"/>        
     <EditText
         android:id="@+id/passwd"
-        android:layout_width="fill_parent"
+        android:layout_width="200px"
         android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background"
         android:password="true"/>
@@ -49,6 +49,7 @@
         android:id="@+id/ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dip"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dip"
         android:text="LOGIN" />
 </LinearLayout>      

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="entries_list_boardtype">
+    <item>同主题模式</item>
+    <item>传统模式</item>
+</string-array>
+<string-array name="entriesvalue_list_boardtype">
+    <item>1</item>
+    <item>2</item>
+</string-array>
+</resources>
