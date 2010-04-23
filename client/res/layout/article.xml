@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="5sp" android:orientation="vertical">
-<ScrollView android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="wrap_content">
-	<TextView android:text="TopTextView" android:id="@+id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="15sp" android:textColor="#ffffff"/>
-</ScrollView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="wrap_content" android:layout_width="fill_parent">
+     <ScrollView android:layout_marginBottom="50dip" android:id="@+id/ScrollView01" android:layout_height="wrap_content" android:layout_width="fill_parent">
+		<TextView android:text="TopTextView" android:id="@+id/content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="15sp" android:textColor="#ffffff"/>
+     </ScrollView>
+     <RelativeLayout android:layout_marginTop="-50dip" android:gravity="bottom" android:layout_height="wrap_content" android:layout_width="fill_parent">
+<LinearLayout android:id="@+id/LinearLayout01" 
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content"
+android:gravity="center_horizontal" 
+android:layout_alignParentBottom="true">
+    <ImageButton
+    	android:id="@+id/top"
+    	android:layout_width="50dip"
+    	android:layout_height="40dip"
+    	android:src="@drawable/fastback" />
+    <ImageButton
+    	android:id="@+id/prevpost"
+    	android:layout_width="50dip"
+    	android:layout_height="40dip"
+    	android:src="@drawable/back" />
+    <ImageButton
+    	android:id="@+id/nextpost"
+    	android:layout_width="50dip"
+    	android:layout_height="40dip"
+    	android:src="@drawable/forward" />
+    <ImageButton
+    	android:id="@+id/reply"
+    	android:layout_width="50dip"
+    	android:layout_height="40dip"
+    	android:src="@drawable/reply" />
+</LinearLayout>
+     </RelativeLayout>
 </LinearLayout>
