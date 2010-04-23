@@ -22,5 +22,6 @@ urlpatterns = patterns('',
     (r'^gettopic$', 'smth.op.views.gettopic'),
     (r'^getboard', 'smth.op.views.getboard'),
     (r'^article', 'smth.op.views.article'),
+    (r'^beautya', 'smth.op.views.beautya'),
     (r'^post', 'smth.op.views.post'),
 )
