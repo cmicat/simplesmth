@@ -12,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,24 +25,43 @@ public class ArticleActivity extends Activity{
 	private String from;
 	private String title;
 	private final static String TAG="ArticleActivity";
+	private ImageButton topPost;
+	private ImageButton prevPost;
+	private ImageButton nextPost;
+	private ImageButton replyPost;
+	
+	private String showDisplay(Article article)
+	{
+    	StringBuffer displayContent = new StringBuffer();
+    	displayContent.append("作者:"+article.getAuthor()).append(",信区:"+board).append("\n");
+    	displayContent.append("标题:"+article.getTitle()+"\n");
+    	displayContent.append("发表时间:"+article.getDate()+"\n");
+    	displayContent.append("\n");
+    	displayContent.append(article.getContent());
+    	return displayContent.toString();
+	}
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.article);
+	    topPost = (ImageButton) findViewById(R.id.top);
+	    prevPost = (ImageButton) findViewById(R.id.prevpost);
+	    nextPost = (ImageButton) findViewById(R.id.nextpost);
+	    replyPost = (ImageButton) findViewById(R.id.reply);
         Bundle extras = getIntent().getExtras();
         board = extras.getString("board");
         id=extras.getString("id");
         from = extras.getString("from");
         title = extras.getString("title");
         this.setTitle(title);
-        article = SmthHelper.article(board, id,null);
+        article = SmthHelper.beautya(board, id,null);
         if(article!=null)
         {
         	tv = (TextView) findViewById(R.id.content);
    		 	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
    		 	int textSize = Integer.parseInt(prefs.getString("TextSize", "15"));
         	tv.setTextSize(textSize);
-        	tv.setText(article.getContent());
+        	tv.setText(showDisplay(article));
         }else
         {
         	Toast.makeText(getApplicationContext(),getString(R.string.info_session_fail),Toast.LENGTH_SHORT).show();
@@ -89,21 +110,21 @@ public class ArticleActivity extends Activity{
 	
 	private void doReadTp()
 	{
-		article = SmthHelper.article(board, article.getId(), "tp");
-        tv.setText(article.getContent());
+		article = SmthHelper.beautya(board, article.getId(), "tp");
+        tv.setText(showDisplay(article));
         this.setTitle(article.getTitle());
 	}
 	private void doReadTn()
 	{
-		article = SmthHelper.article(board, article.getId(), "tn");
-        tv.setText(article.getContent());		
+		article = SmthHelper.beautya(board, article.getId(), "tn");
+        tv.setText(showDisplay(article));		
         this.setTitle(article.getTitle());
 	}
 	
 	private void doReadTop()
 	{
-		article = SmthHelper.article(board, article.getTopid(), null);
-        tv.setText(article.getContent());		
+		article = SmthHelper.beautya(board, article.getTopid(), null);
+        tv.setText(showDisplay(article));		
         this.setTitle(article.getTitle());
 	}
 	
@@ -113,14 +134,18 @@ public class ArticleActivity extends Activity{
 		Intent i = new Intent(this, PostActivity.class);
 		i.putExtra("board",board);
 		i.putExtra("reid", article.getId());
-		if(title.startsWith("● "))
-		{
-			title = title.replace("● ", "");
-		}
-		if(title.startsWith("Re"))
-			i.putExtra("title", title);
+		if(article.getTitle().startsWith("Re"))
+			i.putExtra("title", article.getTitle());
 		else
-			i.putExtra("title", "Re: "+title);
+			i.putExtra("title", "Re: "+article.getTitle());
+		String quote="";
+		quote = "\n【 在 "+article.getAuthor()+" 的大作中提到: 】\n";
+		String[] contents = article.getContent().split("\n");
+		if(contents.length>2)
+			quote = quote+": "+contents[0]+"\n: "+contents[1];
+		else
+			quote = quote+": "+contents[0];
+		i.putExtra("quote", quote);		
 		startActivityForResult(i, ACTIVITY_REPLY);
 	}
 	
@@ -139,6 +164,45 @@ public class ArticleActivity extends Activity{
 	    	finish();
 		}
 	}
+	
+    protected void onResume()
+    {
+    	super.onResume();
+    	//handle button
+    	topPost.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go first");
+    			doReadTop();
+    		}
+    		
+    	});
+    	
+    	prevPost.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go last");
+    			doReadTp();
+    		}
+    		
+    	});
+
+    	nextPost.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go next");
+    			doReadTn();
+    		}
+    		
+    	});
+    	
+    	replyPost.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go Prev");
+    			doReply();
+    		}
+    		
+    	});
+
+
+    }
 	
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
