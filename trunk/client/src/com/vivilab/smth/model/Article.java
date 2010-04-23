@@ -7,6 +7,8 @@ public class Article {
 	private String info;
 	private String content;
 	private String topid;
+	private String author;
+	private String date;
 	public String getId() {
 		return id;
 	}
@@ -36,6 +38,18 @@ public class Article {
 	}
 	public String getTopid() {
 		return topid;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getDate() {
+		return date;
 	}
 	
 }

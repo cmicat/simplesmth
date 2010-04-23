@@ -469,6 +469,50 @@ public class SmthHelper {
 		}
 		
 	}
+
+	static public Article beautya(String board,String id,String p)
+	{
+		try{
+			String articleUrl;
+			if(p!=null)
+				articleUrl = gwUrl+"beautya?key="+sessionKey+"&board="+URLEncoder.encode(board, "utf-8")+"&id="+id+"&p="+p;
+			else
+				articleUrl = gwUrl+"beautya?key="+sessionKey+"&board="+URLEncoder.encode(board, "utf-8")+"&id="+id;
+			String result=httpGet(articleUrl);
+			if(result!=null)
+			{
+				JSONObject json = new JSONObject(result);
+				int login = json.getInt("l");
+				if(login != STATE_SESSION_OK)
+				{
+					Log.w(TAG,"article session fail");
+					return null;
+				}
+				JSONObject a = json.getJSONObject("r");
+				Log.i(TAG, "article r:"+a);
+				Article article = new Article();
+				article.setContent(a.getString("c"));
+				article.setTitle(a.getString("t"));
+				article.setTopid(a.getString("tid"));
+				article.setId(a.getString("id"));
+				article.setAuthor(a.getString("a"));
+				article.setDate(a.getString("d"));
+				article.setId(a.getString("id"));
+				return article;
+			}
+			else
+			{
+				Log.w(TAG,"article no result");
+				return null;
+			}
+		}catch(Exception e)
+		{
+			Log.e(TAG,"article error", e);
+			return null;
+		}
+		
+	}
+
 	
 	static public int post(String board,String title,String content,String reid)
 	{

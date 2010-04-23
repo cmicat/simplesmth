@@ -36,6 +36,8 @@ public class PostActivity extends Activity implements OnClickListener{
         {
         	String title = extra.getString("title");
         	mTitle.setText(title);
+        	String quote = extra.getString("quote");
+        	mContent.setText(quote);
         }
         Button postButton = (Button)findViewById(R.id.post);
         postButton.setOnClickListener(this);

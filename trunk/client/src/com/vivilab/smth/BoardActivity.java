@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -34,6 +35,10 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 	private Board currentBoard;
 	private int state;
 	private int boardMode;
+	private ImageButton first;
+	private ImageButton prev;
+	private ImageButton next;
+	private ImageButton last;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,11 @@ public class BoardActivity extends Activity implements OnItemClickListener{
         setContentView(R.layout.board);
         context = this;
         listView = (ListView) findViewById(R.id.listThread);
+        first = (ImageButton) findViewById(R.id.first);
+        prev = (ImageButton) findViewById(R.id.prev);
+        next = (ImageButton) findViewById(R.id.next);
+        last = (ImageButton) findViewById(R.id.last);
+        
         Bundle extras = getIntent().getExtras();
         String boardname = extras.getString("board");
         this.setTitle(boardname);
@@ -185,14 +195,44 @@ public class BoardActivity extends Activity implements OnItemClickListener{
 	
 	private void doFirstPage()
 	{
-		currentBoard = SmthHelper.getboard(this.boardName, "1");
+//		currentBoard = SmthHelper.getboard(this.boardName, "1");
+		switch(currentBoard.getFtype()){
+		case 0:
+			currentBoard = SmthHelper.getboard(this.boardName, "1");
+			break;
+		case 1:
+			currentBoard = SmthHelper.getwz(this.boardName, "1");
+			break;
+		case 3:
+			currentBoard = SmthHelper.getmark(this.boardName, "1");
+			break;
+		case 6:
+			currentBoard = SmthHelper.gettopic(this.boardName, "1");
+			break;
+		}
+
         datasAdapter.setDatas(currentBoard.getArticles());
         datasAdapter.notifyDataSetChanged();		
 	}
 
 	private void doLastPage()
 	{
-		currentBoard = SmthHelper.getboard(this.boardName, null);
+//		currentBoard = SmthHelper.getboard(this.boardName, null);
+		switch(currentBoard.getFtype()){
+		case 0:
+			currentBoard = SmthHelper.getboard(this.boardName, null);
+			break;
+		case 1:
+			currentBoard = SmthHelper.getwz(this.boardName, null);
+			break;
+		case 3:
+			currentBoard = SmthHelper.getmark(this.boardName, null);
+			break;
+		case 6:
+			currentBoard = SmthHelper.gettopic(this.boardName, null);
+			break;
+		}
+		
         datasAdapter.setDatas(currentBoard.getArticles());
         datasAdapter.notifyDataSetChanged();		
 	}
@@ -244,6 +284,46 @@ public class BoardActivity extends Activity implements OnItemClickListener{
     	 }
     }
 
+    protected void onResume()
+    {
+    	super.onResume();
+    	//handle button
+    	first.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go first");
+    			doFirstPage();
+    		}
+    		
+    	});
+    	
+    	last.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go last");
+    			doLastPage();
+    		}
+    		
+    	});
+
+    	next.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go next");
+    			doNextPage();
+    		}
+    		
+    	});
+    	
+    	prev.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"go Prev");
+    			doPrevPage();
+    		}
+    		
+    	});
+
+
+    }
+
+    
     protected void onRestart()
     {
     	super.onRestart();
