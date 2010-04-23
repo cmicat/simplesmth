@@ -5,6 +5,7 @@ from smth.util.smthapi import SimpleSMTH
 from smth.util.smthparser import FavProcessor
 from smth.util.smthparser import BoardProcessor
 from smth.util.smthparser import ArticleProcessor
+from smth.util.smthparser import BeautyArticleProcessor
 from smth.util.smthparser import Top10Parser
 from smth.util.smthparser import TopicProcessor
 from smth.util.json import json_encode
@@ -177,6 +178,38 @@ def article(request):
     result2 = json_encode(result)
     print result2
     return HttpResponse(result2)
+
+def beautya(request): #beautiful article new version only
+    try:
+        key=request.GET['key']
+        smth2 = SimpleSMTH()
+        smth2.setCj(key)
+    except:
+        fail = {}
+        fail['l']=0
+        return HttpResponse(json_encode(fail))
+    result={}
+    result['l']=1
+    articleId = request.GET['id']
+    board = request.GET['board']
+    try:
+        p = request.GET['p']
+    except:
+        p = 0
+    if p!=0:
+        simpleout=smth2.get_url_data(smthurl+'?act=article&board='+board+'&id='+articleId+'&p='+p)
+    else:
+        simpleout=smth2.get_url_data(smthurl+'?act=article&board='+board+'&id='+articleId)
+    process = BeautyArticleProcessor()
+    process.feed(unicode(simpleout,"gbk"))
+#    process.feed(simpleout)
+    content = process.getall()
+    result['r']=content
+    process.close
+    result2 = json_encode(result)
+    print result2
+    return HttpResponse(result2)
+
 
 def post(request):
     try:

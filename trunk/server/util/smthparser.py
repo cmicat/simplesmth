@@ -128,6 +128,7 @@ class TopicProcessor():
     def getpage(self):
         return self.page              
 
+
 class ArticleProcessor(HTMLParser):
 
     def __init__(self):
@@ -179,6 +180,92 @@ class ArticleProcessor(HTMLParser):
                 self.aid = url[idpos+3:len(url)]
 
                       
+                            
+    def show(self):
+        return self.content
+        
+    def gettitle(self):
+        return self.title
+
+    def gettopid(self):
+        return self.topid
+    def getid(self):
+        return self.aid
+
+
+class BeautyArticleProcessor(HTMLParser):
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.content = ""
+        self.btag = 0
+        self.count =0
+        self.acount =0
+        self.hasTag =0
+        self.title = ''
+        self.topid = 0
+        self.aid = 0
+        self.author = ''
+        self.date = ''
+                
+    def handle_data(self,data):
+        if self.btag==1:
+            self.count = self.count+1
+#            print unicode(data,"gbk")+',count'+str(self.count)+',len='+str(len(data))
+            if self.count == 1:
+                p1 =data.find(':')
+                p2 = data.find(',')
+                self.author = data[p1+2:p2]
+            if self.count == 3:
+                headpos = data.find(':')
+                self.title = data[headpos+2:len(data)]
+            if self.count == 4:
+                p1 = data.find('(')
+                p2 = data.find(')')
+                self.date = data[p1+1:p2]
+            if self.count == 5:
+                 self.hasTag = 1
+            if self.hasTag == 1:
+                self.content=self.content+data+'\n'
+#            else:
+#                self.content=self.content+data
+#        self.hasTag = 0
+        
+    def handle_endtag(self, tag):
+        if tag == 'p':
+            self.btag = 1
+        if tag == 'body':
+            self.btag = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a':
+            self.acount = self.acount + 1
+            if self.acount == 2:
+                href = [v for k, v in attrs if k=='href']
+                url = href[0]
+                print url
+                idpos = url.find('id=')
+                self.topid = url[idpos+3:len(url)]
+            if self.acount == 1:
+                href = [v for k, v in attrs if k=='href']
+                url = href[0]
+                print url
+                idpos = url.find('id=')
+                self.aid = url[idpos+3:len(url)-5]
+
+    def getall(self):
+        result = {}
+        result['a'] = self.author
+        print self.author
+        result['t'] = self.title
+        print self.title
+        result['d'] = self.date
+        print self.date
+        result['c'] = self.content
+        print self.content
+        result['id'] = self.aid
+        result['tid'] = self.topid
+        return result
                             
     def show(self):
         return self.content
