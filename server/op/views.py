@@ -102,7 +102,7 @@ def getboard(request):
     else:
         simpleout=smth2.get_url_data(smthurl+'?act=board&board='+name+'&ftype='+str(ftype))
     process = BoardProcessor()
-    process.feed(unicode(simpleout,"gbk"))
+    process.feed(unicode(simpleout,"gbk",'ignore'))
 #    process.feed(simpleout)
     result['r']=process.showboard()
     result['pp']=process.getppage()
@@ -136,7 +136,7 @@ def gettopic(request):
         simpleout=smth2.get_url_data('http://www.newsmth.net/bbsdoc.php?&board='+name+'&page='+page+'&ftype='+str(ftype))
     else:
         simpleout=smth2.get_url_data('http://www.newsmth.net/bbsdoc.php?board='+name+'&ftype='+str(ftype))
-    process = TopicProcessor(unicode(simpleout,"gbk"))
+    process = TopicProcessor(unicode(simpleout,"gbk",'ignore'))
     result['r']=process.getall()
     result['p']=process.getpage()
     result2 = json_encode(result)
@@ -167,7 +167,7 @@ def article(request):
     else:
         simpleout=smth2.get_url_data(smthurl+'?act=article&board='+board+'&id='+articleId)
     process = ArticleProcessor()
-    process.feed(unicode(simpleout,"gbk"))
+    process.feed(unicode(simpleout,"gbk",'ignore'))
 #    process.feed(simpleout)
     content = process.show()
     result['r']=content
@@ -201,7 +201,7 @@ def beautya(request): #beautiful article new version only
     else:
         simpleout=smth2.get_url_data(smthurl+'?act=article&board='+board+'&id='+articleId)
     process = BeautyArticleProcessor()
-    process.feed(unicode(simpleout,"gbk"))
+    process.feed(unicode(simpleout,"gbk",'ignore'))
 #    process.feed(simpleout)
     content = process.getall()
     result['r']=content
