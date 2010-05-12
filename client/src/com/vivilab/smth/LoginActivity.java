@@ -26,10 +26,11 @@ public class LoginActivity extends Activity implements OnClickListener{
 	private Button loginButton;
 	private EditText mUserid;
 	private EditText mPasswd;
-	private ProgressDialog dialog;
+	private ProgressDialog dialog = null;
 	private Activity presentActivity;
 	private ImageView logo;
-	private int state = 0;
+	private static int state = 0;
+	private static boolean working = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +51,11 @@ public class LoginActivity extends Activity implements OnClickListener{
         	String passwd=c.getString(c.getColumnIndexOrThrow(UserDbAdapter.KEY_PASSWD));
         	Log.i(TAG, "get user from db:"+userid);
         	dialog = ProgressDialog.show(LoginActivity.this, "",getString(R.string.info_login), true);
-        	LoginThread login = new LoginThread(handler,userid,passwd,1);
-        	login.start();
+        	if(!working)
+        	{
+        		LoginThread login = new LoginThread(handler,userid,passwd,1);
+        		login.start();
+        	}
         }
         else
         {
@@ -79,6 +83,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 	
     final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+        	working = false;
         	dialog.dismiss();
             int state = msg.getData().getInt("state");
             if(state>0)
@@ -109,6 +114,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 		}
 		
 		 public void run() {
+			 working = true;
 			 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(presentActivity);
 			 String apiHost = prefs.getString("ServerUrl", "http://smth.vivilab.info/");
 			 SmthHelper.setApiHost(apiHost);
@@ -134,6 +140,7 @@ public class LoginActivity extends Activity implements OnClickListener{
     protected void onDestroy(){
     	super.onDestroy();
     	mDbHelper.close();
+    	dialog.dismiss();
     }
 	
     protected void onRestart() {

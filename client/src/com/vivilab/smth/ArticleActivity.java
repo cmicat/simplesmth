@@ -14,11 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ArticleActivity extends Activity{
 	private TextView tv;
+	private ScrollView sv;
 	private Article article;
 	private String board;
 	private String id;
@@ -34,7 +36,6 @@ public class ArticleActivity extends Activity{
 	{
     	StringBuffer displayContent = new StringBuffer();
     	displayContent.append("作者:"+article.getAuthor()).append(",信区:"+board).append("\n");
-    	displayContent.append("标题:"+article.getTitle()+"\n");
     	displayContent.append("发表时间:"+article.getDate()+"\n");
     	displayContent.append("\n");
     	displayContent.append(article.getContent());
@@ -55,6 +56,7 @@ public class ArticleActivity extends Activity{
         title = extras.getString("title");
         this.setTitle(title);
         article = SmthHelper.beautya(board, id,null);
+        sv = (ScrollView)findViewById(R.id.ScrollView01);
         if(article!=null)
         {
         	tv = (TextView) findViewById(R.id.content);
@@ -111,12 +113,14 @@ public class ArticleActivity extends Activity{
 	private void doReadTp()
 	{
 		article = SmthHelper.beautya(board, article.getId(), "tp");
+		sv.scrollTo(0, 0);
         tv.setText(showDisplay(article));
         this.setTitle(article.getTitle());
 	}
 	private void doReadTn()
 	{
 		article = SmthHelper.beautya(board, article.getId(), "tn");
+		sv.scrollTo(0, 0);
         tv.setText(showDisplay(article));		
         this.setTitle(article.getTitle());
 	}
@@ -124,6 +128,7 @@ public class ArticleActivity extends Activity{
 	private void doReadTop()
 	{
 		article = SmthHelper.beautya(board, article.getTopid(), null);
+		sv.scrollTo(0, 0);
         tv.setText(showDisplay(article));		
         this.setTitle(article.getTitle());
 	}

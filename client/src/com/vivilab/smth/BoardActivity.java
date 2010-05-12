@@ -1,6 +1,5 @@
 package com.vivilab.smth;
 
-import java.util.List;
 
 import com.vivilab.smth.R;
 import com.vivilab.smth.adapter.ArticleListAdapter;
@@ -9,7 +8,6 @@ import com.vivilab.smth.model.Board;
 import com.vivilab.smth.view.ArticleItemView;
 
 import android.app.Activity;
-//import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;

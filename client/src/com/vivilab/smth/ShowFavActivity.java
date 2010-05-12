@@ -8,6 +8,7 @@ import com.vivilab.smth.helper.SmthHelper;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,36 +25,47 @@ public class ShowFavActivity extends ListActivity implements
 		OnItemClickListener {
 
 	private final static String TAG = "ShowFavActivity";
-	private List myFav;
-	private ProgressDialog dialog;
-	private ListActivity currentActivity;
-//	private UserDbAdapter mDbHelper;
-
-	private int state = 0;
-	
+	private static List myFav;
+	private static ProgressDialog dialog = null;
+	private static ShowFavActivity currentActivity;
+	private static boolean working = false;
+	private static int state = 0;
+	private static ArrayAdapter<String> favAdapter;
 	public void onCreate(Bundle savedInstanceState) {
+		currentActivity = this;
 		super.onCreate(savedInstanceState);
-		// myFav=SmthHelper.getFavorate();
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(false);
 
 		lv.setOnItemClickListener(this);
-		currentActivity = this;
-		if(state!=2)
+		if(!working)
 		{
-			dialog = ProgressDialog.show(ShowFavActivity.this, "",
-					getString(R.string.info_getfav), true);
-			ShowFav showFav = new ShowFav(handler);
-			showFav.start();
+			if(state != 2)
+			{
+				dialog = ProgressDialog.show(ShowFavActivity.this, "",
+				getString(R.string.info_getfav), true);
+				ShowFav showFav = new ShowFav(handler);
+				working = true;
+				showFav.start();
+			}
+			else
+			{
+				
+				//setListAdapter(new ArrayAdapter<String>(currentActivity,
+				//		R.layout.listfav, myFav));
+				setListAdapter(favAdapter);
+			}
+				
 		}
 		else
 		{
-			setListAdapter(new ArrayAdapter<String>(currentActivity,
-					R.layout.listfav, myFav));
-			
+			Log.i(TAG, "after rotate state = "+state);
+			if(state != 2)
+				dialog = ProgressDialog.show(ShowFavActivity.this, "",getString(R.string.info_getfav), true);				
 		}
 	}
 
+		
 	public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
 		Log.i(TAG, "we are going to show board:" + ((TextView) view).getText());
 		Intent i = new Intent(this, BoardActivity.class);
@@ -61,18 +73,24 @@ public class ShowFavActivity extends ListActivity implements
 		startActivity(i);
 	}
 
-	final Handler handler = new Handler() {
+	final static Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
+			//if(!rotated)
+			Log.i(TAG, "set state to 2 ");
+			state = 2;
 			dialog.dismiss();
+			dialog = null;
 			int size = msg.getData().getInt("size");
 			if (size > 0) {
-				setListAdapter(new ArrayAdapter<String>(currentActivity,
-						R.layout.listfav, myFav));
+				favAdapter = new ArrayAdapter<String>(currentActivity,
+						R.layout.listfav, myFav);
+				currentActivity.setListAdapter(favAdapter);
 			} else {
-				Toast.makeText(getApplicationContext(),
-						getString(R.string.info_no_fav), Toast.LENGTH_SHORT)
+				Toast.makeText(currentActivity,
+						currentActivity.getString(R.string.info_no_fav), Toast.LENGTH_SHORT)
 						.show();
 			}
+			working =false;
 		}
 	};
 
@@ -84,6 +102,7 @@ public class ShowFavActivity extends ListActivity implements
 		}
 
 		public void run() {
+
 			myFav = SmthHelper.getFavorate();
 			int size;
 			if(myFav!=null)
@@ -95,7 +114,6 @@ public class ShowFavActivity extends ListActivity implements
 			b.putInt("size", size);
 			msg.setData(b);
 			mHandler.sendMessage(msg);
-
 		}
 	}
 	//menu 
@@ -103,11 +121,15 @@ public class ShowFavActivity extends ListActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG,"i m on pause!what shall i do??");
     }
 	
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"i m on resume!what shall i do??");
+    }
+    
+    protected void onDestroy(){
+        super.onDestroy();
+    	if(dialog!=null)
+    		dialog.dismiss();    	
     }
 }

@@ -496,7 +496,7 @@ public class SmthHelper {
 				article.setTopid(a.getString("tid"));
 				article.setId(a.getString("id"));
 				article.setAuthor(a.getString("a"));
-				article.setDate(a.getString("d"));
+				article.setDate(a.getString("d").replaceAll("\n",""));
 				article.setId(a.getString("id"));
 				return article;
 			}
