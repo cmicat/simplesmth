@@ -14,22 +14,22 @@ android:layout_alignParentBottom="true">
     <ImageButton
     	android:id="@+id/top"
     	android:layout_width="50dip"
-    	android:layout_height="40dip"
+    	android:layout_height="45dip"
     	android:src="@drawable/fastback" />
     <ImageButton
     	android:id="@+id/prevpost"
     	android:layout_width="50dip"
-    	android:layout_height="40dip"
+    	android:layout_height="45dip"
     	android:src="@drawable/back" />
     <ImageButton
     	android:id="@+id/nextpost"
     	android:layout_width="50dip"
-    	android:layout_height="40dip"
+    	android:layout_height="45dip"
     	android:src="@drawable/forward" />
     <ImageButton
     	android:id="@+id/reply"
     	android:layout_width="50dip"
-    	android:layout_height="40dip"
+    	android:layout_height="45dip"
     	android:src="@drawable/reply" />
 </LinearLayout>
      </RelativeLayout>

@@ -23,6 +23,7 @@
         android:id="@+id/userid"
         android:layout_width="200px"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:background="@android:drawable/editbox_background"/>
 </LinearLayout>
 <LinearLayout
@@ -39,6 +40,7 @@
         android:id="@+id/passwd"
         android:layout_width="200px"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:background="@android:drawable/editbox_background"
         android:password="true"/>
 </LinearLayout>
