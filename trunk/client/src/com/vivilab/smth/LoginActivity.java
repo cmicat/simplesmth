@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,7 +31,6 @@ public class LoginActivity extends Activity implements OnClickListener{
 	private ProgressDialog dialog = null;
 	private Activity presentActivity;
 	private ImageView logo;
-	private static int state = 0;
 	private static boolean working = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,11 +130,39 @@ public class LoginActivity extends Activity implements OnClickListener{
              mHandler.sendMessage(msg);
 		 }
 	}
+	private static final int EXIT = Menu.FIRST+1;
+	private static final int CONFIG = Menu.FIRST;
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    menu.add(0, CONFIG, 0, R.string.info_config);
+	    menu.add(0, EXIT, 0, R.string.info_exit);
+	    return true;
+	}	
 	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+		    case EXIT:
+		    	doExit();
+		        return true;
+		    case CONFIG:
+		    	doConfig();
+		        return true;
+	    }
+	    return false;
+	}
+	private void doExit()
+	{
+    	setResult(RESULT_OK);
+    	finish();
+	}
+	private void doConfig()
+	{
+        Intent i = new Intent(this,SmthPreference.class);
+        startActivity(i);
+	}
 
     protected void onPause() {
         super.onPause();
-        state = 1;
         Log.i(TAG,"i m on pause!what shall i do??");
     }
     
