@@ -8,7 +8,7 @@ import cookielib
 import socket
 from django.conf import settings
 
-ckpath=settings.COOKIE_PATH
+#ckpath=settings.COOKIE_PATH
 
 class SimpleSMTH:
     def __init__(self):

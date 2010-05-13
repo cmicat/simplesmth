@@ -207,10 +207,12 @@ class BeautyArticleProcessor(HTMLParser):
         self.aid = 0
         self.author = ''
         self.date = ''
+        self.space = 0
                 
     def handle_data(self,data):
         if self.btag==1:
-            self.count = self.count+1
+            if self.space!=1:
+                self.count = self.count+1
 #            print unicode(data,"gbk")+',count'+str(self.count)+',len='+str(len(data))
             if self.count == 1:
                 p1 =data.find(':')
@@ -220,9 +222,14 @@ class BeautyArticleProcessor(HTMLParser):
                 headpos = data.find(':')
                 self.title = data[headpos+2:len(data)]
             if self.count == 4:
-                p1 = data.find('(')
-                p2 = data.find(')')
-                self.date = data[p1+1:p2]
+                if self.space != 1:
+                    p1 = data.find('(')
+                    p2 = data.find(')')
+                    self.date = data[p1+1:p2]
+                else:
+                    p2 = data.find(')')
+                    self.date = self.date +" "+data[:p2]
+                    self.space = 0
             if self.count == 5:
                  self.hasTag = 1
             if self.hasTag == 1:
@@ -230,7 +237,14 @@ class BeautyArticleProcessor(HTMLParser):
 #            else:
 #                self.content=self.content+data
 #        self.hasTag = 0
-        
+    
+    def handle_entityref(self, entity):
+        if self.count == 4:
+            if entity == "nbsp":
+                print "recv space"
+                self.space = 1
+            
+    
     def handle_endtag(self, tag):
         if tag == 'p':
             self.btag = 1
@@ -256,13 +270,13 @@ class BeautyArticleProcessor(HTMLParser):
     def getall(self):
         result = {}
         result['a'] = self.author
-        print self.author
+#        print self.author
         result['t'] = self.title
-        print self.title
+#        print self.title
         result['d'] = self.date
-        print self.date
+#        print self.date
         result['c'] = self.content
-        print self.content
+#        print self.content
         result['id'] = self.aid
         result['tid'] = self.topid
         return result
