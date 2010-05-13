@@ -6,7 +6,7 @@ import smthapi
 import smthparser
 
 smth = smthapi.SimpleSMTH()
-out=smth.get_url_data('http://www.newsmth.net/atomic.php?act=article&board=Aero&id=185588')
+out=smth.get_url_data('http://www.newsmth.net/atomic.php?act=article&board=GoogleTech&id=70682')
 processor = smthparser.BeautyArticleProcessor()
 processor.feed(unicode(out,"gbk"))
 print processor.getall()
