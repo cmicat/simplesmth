@@ -54,11 +54,11 @@ public class TabHomeActivity extends TabActivity{
 	    tabHost.setCurrentTab(0);
 	}
 
-	public static final int GOBOARD = Menu.FIRST;
-	public static final int CHANGEUSER = Menu.FIRST+1;
-	public static final int EXIT = Menu.FIRST+2;
-	public static final int CONFIG = Menu.FIRST+3;
-	public static final int ABOUT = Menu.FIRST+4;
+	private static final int GOBOARD = Menu.FIRST;
+	private static final int CHANGEUSER = Menu.FIRST+1;
+	private static final int EXIT = Menu.FIRST+2;
+	private static final int CONFIG = Menu.FIRST+3;
+	private static final int ABOUT = Menu.FIRST+4;
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    menu.add(0, GOBOARD, 0, R.string.info_goboard);
