@@ -7,6 +7,7 @@ import com.vivilab.smth.model.Article;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class ArticleActivity extends Activity{
 	private ImageButton prevPost;
 	private ImageButton nextPost;
 	private ImageButton replyPost;
+	private ImageButton downAttach;
 	
 	private String showDisplay(Article article)
 	{
@@ -49,6 +51,8 @@ public class ArticleActivity extends Activity{
 	    prevPost = (ImageButton) findViewById(R.id.prevpost);
 	    nextPost = (ImageButton) findViewById(R.id.nextpost);
 	    replyPost = (ImageButton) findViewById(R.id.reply);
+	    downAttach = (ImageButton) findViewById(R.id.downAttach);
+	    downAttach.setVisibility(View.INVISIBLE);
         Bundle extras = getIntent().getExtras();
         board = extras.getString("board");
         id=extras.getString("id");
@@ -64,6 +68,8 @@ public class ArticleActivity extends Activity{
    		 	int textSize = Integer.parseInt(prefs.getString("TextSize", "15"));
         	tv.setTextSize(textSize);
         	tv.setText(showDisplay(article));
+        	if(article.getHasAttach()!=0)
+        		downAttach.setVisibility(View.VISIBLE);
         }else
         {
         	Toast.makeText(getApplicationContext(),getString(R.string.info_session_fail),Toast.LENGTH_SHORT).show();
@@ -206,6 +212,13 @@ public class ArticleActivity extends Activity{
     		
     	});
 
+    	downAttach.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) {
+    			Log.i(TAG,"open url for attachment");
+    			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.newsmth.net/"+article.getAtthUrl())));
+    		}
+    		
+    	});
 
     }
 	
