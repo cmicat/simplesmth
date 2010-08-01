@@ -121,13 +121,19 @@ public class ArticleActivity extends Activity{
 		article = SmthHelper.beautya(board, article.getId(), "tp");
 		sv.scrollTo(0, 0);
         tv.setText(showDisplay(article));
+    	if(article.getHasAttach()!=0)
+    		downAttach.setVisibility(View.VISIBLE);
+
         this.setTitle(article.getTitle());
 	}
 	private void doReadTn()
 	{
 		article = SmthHelper.beautya(board, article.getId(), "tn");
 		sv.scrollTo(0, 0);
-        tv.setText(showDisplay(article));		
+        tv.setText(showDisplay(article));
+    	if(article.getHasAttach()!=0)
+    		downAttach.setVisibility(View.VISIBLE);
+
         this.setTitle(article.getTitle());
 	}
 	
@@ -135,7 +141,10 @@ public class ArticleActivity extends Activity{
 	{
 		article = SmthHelper.beautya(board, article.getTopid(), null);
 		sv.scrollTo(0, 0);
-        tv.setText(showDisplay(article));		
+        tv.setText(showDisplay(article));
+    	if(article.getHasAttach()!=0)
+    		downAttach.setVisibility(View.VISIBLE);
+
         this.setTitle(article.getTitle());
 	}
 	
