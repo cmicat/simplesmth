@@ -498,6 +498,8 @@ public class SmthHelper {
 				article.setAuthor(a.getString("a"));
 				article.setDate(a.getString("d").replaceAll("\n",""));
 				article.setId(a.getString("id"));
+				article.setHasAttach(a.getInt("att"));
+				article.setAtthUrl(a.getString("url"));
 				return article;
 			}
 			else

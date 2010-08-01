@@ -1,5 +1,7 @@
 package com.vivilab.smth.model;
 
+import java.util.List;
+
 public class Article {
 
 	private String id;
@@ -9,6 +11,9 @@ public class Article {
 	private String topid;
 	private String author;
 	private String date;
+	private int hasAttach;
+	private String atthUrl;
+	
 	public String getId() {
 		return id;
 	}
@@ -50,6 +55,18 @@ public class Article {
 	}
 	public String getDate() {
 		return date;
+	}
+	public void setHasAttach(int hasAttach) {
+		this.hasAttach = hasAttach;
+	}
+	public int getHasAttach() {
+		return hasAttach;
+	}
+	public void setAtthUrl(String atthUrl) {
+		this.atthUrl = atthUrl;
+	}
+	public String getAtthUrl() {
+		return atthUrl;
 	}
 	
 }
