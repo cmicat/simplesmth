@@ -31,6 +31,11 @@ android:layout_alignParentBottom="true">
     	android:layout_width="50dip"
     	android:layout_height="45dip"
     	android:src="@drawable/reply" />
+    <ImageButton
+    	android:id="@+id/downAttach"
+    	android:layout_width="50dip"
+    	android:layout_height="40dip"
+    	android:src="@drawable/attach" />
 </LinearLayout>
      </RelativeLayout>
 </LinearLayout>
